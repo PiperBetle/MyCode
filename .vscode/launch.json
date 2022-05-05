@@ -1,0 +1,37 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "编译并调试(VScode)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${fileDirname}\\VScodeRunner",
+			"cwd": "${workspaceFolder}",
+			"preLaunchTask": "g++ compile"
+		},
+		{
+			"name": "编译并运行(ConsolePauser)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "C:\\Windows\\System32\\cmd.exe",
+			"args": [
+				"/c ConsolePauser \"${fileDirname}\"\\VScodeRunner"
+			],
+			"cwd": "${workspaceFolder}",
+			"externalConsole": true,
+			"preLaunchTask": "g++ compile"
+		},
+		{
+			"name": "编译并运行(pause)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "C:\\Windows\\System32\\cmd.exe",
+			"args": [
+				"/c VScodeRunner.exe"
+			],
+			"cwd": "${fileDirname}",
+			"console": "externalTerminal",
+			"preLaunchTask": "g++ compile"
+		}
+	]
+}

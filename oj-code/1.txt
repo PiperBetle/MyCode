@@ -1,0 +1,46 @@
+mod_ten_xor_48(int):
+	movsx   rax, edi
+	mov     edx, edi
+	imul    rax, rax, 1717986919
+	sar     edx, 31
+	sar     rax, 34
+	sub     eax, edx
+	lea     eax, [rax+rax*4]
+	add     eax, eax
+	sub     edi, eax
+	mov     eax, edi
+	xor     eax, 48
+	ret
+mod_ten_xor_48(unsigned int):
+	mov     eax, edi
+	mov     edx, 3435973837
+	imul    rax, rdx
+	shr     rax, 35
+	lea     eax, [rax+rax*4]
+	add     eax, eax
+	sub     edi, eax
+	mov     eax, edi
+	xor     eax, 48
+	ret
+mod_ten_add_48(int):
+	movsx   rax, edi
+	mov     edx, edi
+	imul    rax, rax, 1717986919
+	sar     edx, 31
+	sar     rax, 34
+	sub     eax, edx
+	lea     eax, [rax+rax*4]
+	add     eax, eax
+	sub     edi, eax
+	lea     eax, [rdi+48]
+	ret
+mod_ten_add_48(unsigned int):
+	mov     eax, edi
+	mov     edx, 3435973837
+	imul    rax, rdx
+	shr     rax, 35
+	lea     eax, [rax+rax*4]
+	add     eax, eax
+	sub     edi, eax
+	lea     eax, [rdi+48]
+	ret

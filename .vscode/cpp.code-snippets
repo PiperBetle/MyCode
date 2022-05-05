@@ -1,0 +1,322 @@
+{
+	"模板": {
+		"scope": "cpp",
+		"prefix": "add_main",
+		"body": [
+			"#include<iostream>",
+			"#include<cstdio>",
+			"#include<algorithm>",
+			"#include<cstring>",
+			"class fastIO{private:char ibuf[1000007],*p1=ibuf,*p2=ibuf,obuf[1000007],*p3=obuf,sta[50];bool file_end=false;char get(){return p1==p2&&(p2=(p1=ibuf)+fread(ibuf,1,1000007,stdin),p1==p2)?(file_end=true),EOF:*p1++;}void put(char x){p3-obuf<1000007?*p3++=x:(fwrite(obuf,p3-obuf,1,stdout),p3=obuf,*p3++=x);}public:explicit operator bool(){return!file_end;}size_t flush(){size_t f=fwrite(obuf,p3-obuf,1,stdout);p3=obuf;*p3=0;return f;}fastIO&operator>>(char&t){for(t=get();isspace(t);t=get());return*this;}fastIO&operator>>(char*t){for(char c=get();c!=10;c=get())*t=c,t++;*t=0;return*this;}fastIO&operator>>(std::string&t){t.clear();for(char c=get();!isspace(c);c=get())t.push_back(c);return*this;}template<typename any>typename std::enable_if<std::is_signed<any>::value,fastIO>::type&operator>>(any&t){t=0;bool y=0;char c=get();for(;!isdigit(c);c=get())if(c==45)y=true;for(;isdigit(c);c=get())t=t*10+(c-48);if(y==1)t=-t;return*this;}fastIO&operator>>(__int128_t&t){t=0;bool y=0;char c=get();for(;!isdigit(c);c=get())if(c==45)y=true;for(;isdigit(c);c=get())t=t*10+(c-48);if(y==1)t=-t;return*this;}template<typename any>typename std::enable_if<std::is_unsigned<any>::value,fastIO>::type&operator>>(any&t){t=0;char c=get();for(;!isdigit(c);c=get());for(;isdigit(c);c=get())t=t*10+(c-48);return*this;}fastIO&operator>>(__uint128_t&t){t=0;char c=get();for(;!isdigit(c);c=get());for(;isdigit(c);c=get())t=t*10+(c-48);return*this;}template<typename any1,typename any2>fastIO&operator>>(std::pair<any1,any2>&t){return*this>>t.first>>t.second;}fastIO&operator<<(const char t){put(t);return*this;}fastIO&operator<<(const char*t){for(;*t;t++)put(*t);return*this;}fastIO&operator<<(const std::string&t){for(const char it:t)put(it);return*this;}template<typename any>typename std::enable_if<std::is_signed<any>::value,fastIO>::type&operator<<(any t){if(!t){put(48);return*this;}int len=0;if(t<0)t=-t,put(45);while(t)sta[len++]=t%10+48,t/=10;while(len--)put(sta[len]);return*this;}fastIO&operator<<(__int128_t t){if(!t){put(48);return*this;}int len=0;if(t<0)t=-t,put(45);while(t)sta[len++]=t%10+48,t/=10;while(len--)put(sta[len]);return*this;}template<typename any>typename std::enable_if<std::is_unsigned<any>::value,fastIO>::type&operator<<(any t){if(!t){put(48);return*this;}int len=0;while(t)sta[len++]=t%10+48,t/=10;while(len--)put(sta[len]);return*this;}fastIO&operator<<(__uint128_t t){if(!t){put(48);return*this;}int len=0;while(t)sta[len++]=t%10+48,t/=10;while(len--)put(sta[len]);return*this;}template<typename any1,typename any2>fastIO&operator<<(const std::pair<any1,any2>&t){return*this<<t.first<<' '<<t.second;}~fastIO(){fwrite(obuf,p3-obuf,1,stdout);}}fio;",
+			"signed main(){",
+			"//\tfreopen(\".in\",\"r\",stdin);",
+			"//\tfreopen(\".out\",\"w\",stdout);",
+			"\treturn 0;",
+			"}"
+		]
+	},
+	"线性筛质数": {
+		"scope": "cpp",
+		"prefix": "add_xxs",
+		"body": [
+			"for(int i=2;i<=n;i++){",
+			"\tif(!pr[i])pt.emplace_back(i),miu[i]=-1,phi[i]=i-1;",
+			"\tfor(int j:pt){",
+			"\t\tif(i*j>n)break;else pr[i*j]=true;",
+			"\t\tif(i%j==0){miu[i*j]=0;phi[i*j]=phi[i]*j;break;}",
+			"\t\tphi[i*j]=phi[i]*(j-1);miu[i*j]=miu[i]*miu[j];",
+			"\t}",
+			"}"
+		]
+	},
+	"快速幂": {
+		"scope": "cpp",
+		"prefix": "add_qp",
+		"body": [
+			"inline int qp(int a,int b,int t=1){for(;b;b>>=1,a=a*a%MOD)if(b&1)t=t*a%MOD;return t;}"
+		]
+	},
+	"最小/大值检查": {
+		"scope": "cpp",
+		"prefix": "add_chk",
+		"body": [
+			"inline void chkmin(auto &x,auto y){if(y<x)x=y;}",
+			"inline void chkmax(auto &x,auto y){if(x<y)x=y;}"
+		]
+	},
+	"强连通分量/缩点": {
+		"scope": "cpp",
+		"prefix": "add_tarjan1",
+		"body": [
+			"void tarjan(int u){",
+			"\tlow[u]=dfn[u]=++dfs_clock;",
+			"\tvis[u]=true;s.emplace(u);",
+			"\tfor(int v:g[u])",
+			"\t\tif(!dfn[v])tarjan(v),chkmin(low[u],low[v]);",
+			"\t\telse if(vis[v])chkmin(low[u],dfn[v]);",
+			"\tif(low[u]==dfn[u]){",
+			"\t\tbl[u]=++cnt,vis[u]=false,siz[cnt]++;",
+			"\t\tfor(;s.top()!=u;s.pop())bl[s.top()]=cnt,vis[s.top()]=false,siz[cnt]++;",
+			"\t\ts.pop();",
+			"\t}",
+			"}"
+		]
+	},
+	"分数": {
+		"scope": "cpp",
+		"prefix": "add_fraction",
+		"body": [
+			"struct fraction{",
+			"\tint up,dw;",
+			"\tstatic int get_len(int x,int l=0){while(x)x/=10,l++;return l;}",
+			"\tstatic int gcd(int a,int b){return std::__detail::__gcd(unsigned(abs(a)),unsigned(abs(b)));}",
+			"\tstatic int lcm(int a,int b){return a/gcd(a,b)*b;}",
+			"\tfraction():up(0),dw(1){}",
+			"\tfraction(int a,int b):up(a),dw(b){}",
+			"\tfraction operator+(){return fraction(+up,+dw);}",
+			"\tfraction operator-(){return fraction(-up,-dw);}",
+			"\tfraction operator~(){return fraction(dw,up);}",
+			"\tfraction &updata(){int g=gcd(up,dw);up/=g,dw/=g;return *this;}",
+			"\tfriend void operator|(fraction &x,fraction &y){int l=lcm(x.dw,y.dw);x.up*=l/x.dw;y.up*=l/y.dw;x.dw=y.dw=l;}",
+			"\tfriend fraction operator+(fraction x,fraction y){x|y;x.up+=y.up;return x.updata();}",
+			"\tfriend fraction operator-(fraction x,fraction y){x|y;x.up-=y.up;return x.updata();}",
+			"\tfriend fraction operator*(fraction x,fraction y){return fraction(x.up*y.up,x.dw*y.dw).updata();}",
+			"\tfriend fraction operator*(fraction x,const int &y){return fraction(x.up*y,x.dw).updata();}",
+			"\tfriend fraction operator/(fraction x,fraction y){return (x*~y).updata();}",
+			"\tfriend std::ostream &operator<<(std::ostream &out,fraction t){",
+			"\t\tbool op=0;",
+			"\t\tif(t.up<0)op=1,t.up=-t.up;",
+			"\t\tint cnt=t.up/t.dw,sp1=get_len(cnt)+op;",
+			"\t\tt.up-=cnt*t.dw;",
+			"\t\tif(!t.up)return cout<<(op?-cnt:cnt);",
+			"\t\tfor(int i=1;i<=sp1;i++)out<<' ';",
+			"\t\tout<<t.up<<'\\n';",
+			"\t\tif(op)out<<'-';",
+			"\t\tout<<cnt;",
+			"\t\tfor(int i=1,sp2=get_len(t.dw);i<=sp2;i++)out<<'-';",
+			"\t\tout<<'\\n';",
+			"\t\tfor(int i=1;i<=sp1;i++)out<<' ';",
+			"\t\treturn out<<t.dw<<'\\n';",
+			"\t}",
+			"};"
+		]
+	},
+	"exgcd": {
+		"scope": "cpp",
+		"prefix": "add_exgcd",
+		"body": [
+			"inline void exgcd(int a,int b,int &x,int &y){if(!b){x=1,y=0;return;}exgcd(b,a%b,y,x);y-=a/b*x;}"
+		]
+	},
+	"取模函数": {
+		"scope": "cpp",
+		"prefix": "add_mod",
+		"body": [
+			"int add0(int x,int y){return (x+=y)<MOD?x:x-MOD;}",
+			"int&add1(int&x,int y){return (x+=y)<MOD?x:x-=MOD;}",
+			"int sub0(int x,int y){return (x-=y)<0?x+MOD:x;}",
+			"int&sub1(int&x,int y){return (x-=y)<0?x+=MOD:x;}",
+			"int mul0(int x,int y){return 1ll*x*y%MOD;}",
+			"int&mul1(int&x,int y){return x=1ll*x*y%MOD;}"
+		]
+	},
+	"珂朵莉树": {
+		"scope": "cpp",
+		"prefix": "add_odt",
+		"body": [
+			"template<typename any>struct odt{",
+			"\tstruct odt_node{",
+			"\t\tint l,r;mutable any data;",
+			"\t\todt_node(int _l,int _r=-1,any _data=0):l(_l),r(_r),data(_data){}",
+			"\t\tbool operator<(const odt_node &t)const{return l<t.l;}",
+			"\t};",
+			"\tstd::set<odt_node>s;",
+			"\tauto insert(int _l,int _r,any _data){return s.insert(odt_node(_l,_r,_data));}",
+			"\tauto begin(){return s.begin();}",
+			"\tauto end(){return s.end();}",
+			"\tauto split(int pos){",
+			"\t\tauto it=s.lower_bound(pos);",
+			"\t\tif(it!=s.end()&&it->l==pos)return it;",
+			"\t\tit--;int l=it->l,r=it->r;any k=it->data;",
+			"\t\ts.erase(it);insert(l,pos-1,k);",
+			"\t\treturn insert(pos,r,k).first;",
+			"\t}",
+			"\tauto assign(int l,int r,any k){",
+			"\t\tauto it_r=split(r+1),it_l=split(l);",
+			"\t\ts.erase(it_l,it_r);",
+			"\t\treturn insert(l,r,k).first;",
+			"\t}",
+			"};"
+		]
+	},
+	"bsgs/exbsgs": {
+		"scope": "cpp",
+		"prefix": "add_bsgs",
+		"body": [
+			"int bsgs(int a,int b,int p){",
+			"\tstd::unordered_map<int,int>map;",
+			"\tint size=ceil(sqrt(p)),mul=b;",
+			"\tfor(int i=1;i<=size;i++)map[mul=mul*a%p]=i;",
+			"\tint step=qp(a,size,p);mul=1;",
+			"\tfor(int i=1;i<=size;i++)if(map.count(mul=mul*step%p))return i*size-map[mul];",
+			"\treturn -1;",
+			"}",
+			"inline int exbsgs(int a,int b,int p){",
+			"\tif(b==1||p==1)return 0;",
+			"\tint g=std::gcd(a,p),cnt=0,mul=1;",
+			"\twhile(g!=1){",
+			"\t\tif(b%g)return -1;",
+			"\t\tb/=g;p/=g;",
+			"\t\tcnt++;mul=mul*a/g%p;",
+			"\t\tif(mul==b)return cnt;",
+			"\t\tg=std::gcd(a,p);",
+			"\t}",
+			"\tint ans=bsgs(a,b*inv(mul,p)%p,p);",
+			"\tif(ans==-1)return -1;",
+			"\treturn ans+cnt;",
+			"}"
+		]
+	},
+	"高精度重载运算符": {
+		"scope": "cpp",
+		"prefix": "add_bigint",
+		"body": [
+			"struct bigint{",
+			"\tstd::vector<int>num;",
+			"\tbigint &operator=(std::string s){",
+			"\t\treverse(s.begin(),s.end());",
+			"\t\tnum.resize(s.size());",
+			"\t\tfor(size_t i=0;i<num.size();i++)num[i]=s[i]-48;",
+			"\t\treturn *this;",
+			"\t}",
+			"\tbigint &operator=(const int &t){return *this=std::to_string(t);}",
+			"\tbigint(){num.clear();}",
+			"\tbigint(const int &t){*this=std::to_string(t);}",
+			"\tbigint del0(){while(!(num.empty()||num.back()))num.pop_back();return *this;}",
+			"\tvoid read(){std::string s;cin>>s;*this=s;}",
+			"\tvoid write(){for(int i=num.size()-1;i>=0;i--)cout<<num[i];cout<<'\\n';}",
+			"\tfriend bigint operator+(const bigint &x,const bigint &y){",
+			"\t\tbigint res;res.num.resize(std::max(x.num.size(),y.num.size())+1);",
+			"\t\tfor(size_t i=0;i<x.num.size();i++)res.num[i]+=x.num[i];",
+			"\t\tfor(size_t i=0;i<y.num.size();i++)res.num[i]+=y.num[i];",
+			"\t\tfor(size_t i=0;i<res.num.size();i++)if(res.num[i]>9)res.num[i]-=10,res.num[i+1]++;",
+			"\t\treturn res.del0();",
+			"\t}",
+			"\tfriend bigint operator-(const bigint &x,const bigint &y){",
+			"\t\tbigint res;res.num.resize(std::max(x.num.size(),y.num.size()));",
+			"\t\tfor(size_t i=0;i<x.num.size();i++)res.num[i]+=x.num[i];",
+			"\t\tfor(size_t i=0;i<y.num.size();i++)res.num[i]-=y.num[i];",
+			"\t\tfor(size_t i=0;i<res.num.size();i++)if(res.num[i]<0)res.num[i]+=10,res.num[i+1]--;",
+			"\t\treturn res.del0();",
+			"\t}",
+			"\tfriend bigint operator*(const bigint &x,const bigint &y){",
+			"\t\tbigint res;res.num.resize(x.num.size()+y.num.size()+2);",
+			"\t\tfor(size_t i=0;i<x.num.size();i++)for(size_t j=0;j<y.num.size();j++)res.num[i+j]+=x.num[i]*y.num[j];",
+			"\t\tfor(size_t i=0;i<res.num.size();i++)if(res.num[i]>9)res.num[i+1]+=res.num[i]/10,res.num[i]%=10;",
+			"\t\treturn res.del0();",
+			"\t}",
+			"\tfriend bigint operator*(const bigint &x,const int &y){",
+			"\t\tbigint res;res.num.resize(x.num.size()+10);",
+			"\t\tfor(size_t i=0;i<x.num.size();i++)res.num[i]=x.num[i]*y;",
+			"\t\tfor(size_t i=0;i<res.num.size();i++)if(res.num[i]>9)res.num[i+1]+=res.num[i]/10,res.num[i]%=10;",
+			"\t\treturn res.del0();",
+			"\t}",
+			"\tfriend bigint operator/(const bigint &x,const int &y){",
+			"\t\tbigint res;int sum=0;res.num.resize(x.num.size());",
+			"\t\tfor(int i=x.num.size()-1;i>=0;i--)sum=sum*10+x.num[i],res.num[i]=sum/y,sum%=y;",
+			"\t\treturn res.del0();",
+			"\t}",
+			"\tint operator%(const int &n){",
+			"\t\tint res=0;",
+			"\t\tfor(int i=num.size()-1;i>=0;i--)res=(res+num[i])%n;",
+			"\t\treturn res;",
+			"\t}",
+			"\tbigint operator+=(const auto &t){return *this=std::move(*this+t);}",
+			"\tbigint operator-=(const auto &t){return *this=std::move(*this-t);}",
+			"\tbigint operator*=(const auto &t){return *this=std::move(*this*t);}",
+			"\tbigint operator/=(const auto &t){return *this=std::move(*this/t);}",
+			"\tfriend bool operator<(const bigint &x,const bigint &y){",
+			"\t\tif(x.num.size()!=y.num.size())return x.num.size()<y.num.size();",
+			"\t\tfor(int i=x.num.size()-1;i>=0;i--)if(x.num[i]!=y.num[i])return x.num[i]<y.num[i];",
+			"\t\treturn 0;",
+			"\t}",
+			"\tfriend bool operator==(const bigint &x,const bigint &y){",
+			"\t\tif(x.num.size()!=y.num.size())return 0;",
+			"\t\tfor(int i=x.num.size()-1;i>=0;i--)if(x.num[i]!=y.num[i])return 0;",
+			"\t\treturn 1;",
+			"\t}",
+			"};"
+		]
+	},
+	"单数字求欧拉函数": {
+		"scope": "cpp",
+		"prefix": "add_phi",
+		"body": [
+			"inline int phi(int n){",
+			"\tint ans=n;",
+			"\tfor(int i=2;i*i<=n;i++)if(n%i==0){ans-=ans/i;while(n%i==0)n/=i;}",
+			"\treturn n>1?ans-ans/n:ans;",
+			"}"
+		]
+	},
+	"线性求逆元": {
+		"scope": "cpp",
+		"prefix": "add_inv",
+		"body": [
+			"inv[1]=1;for(int i=2;i<=n;i++)inv[i]=(MOD-MOD/i)*inv[MOD%i]%MOD;"
+		]
+	},
+	"manacher": {
+		"scope": "cpp",
+		"prefix": "add_manacher",
+		"body": [
+			"void manacher(const std::string &b){",
+			"\tstd::string a=\"~|\";",
+			"\tfor(char it:b)a.push_back(it),a.push_back('|');",
+			"\tint r=0,mid=0,la=a.length();",
+			"\tfor(int i=1;i<la;i++){",
+			"\t\tif(i<=r)hw[i]=std::min(hw[(mid<<1)-i],mid+hw[mid]-i);else hw[i]=1;",
+			"\t\twhile(a[i-hw[i]]==a[i+hw[i]])hw[i]++;",
+			"\t\tif(i+hw[i]>r)r=i+hw[i],mid=i;",
+			"\t}",
+			"}"
+		]
+	},
+	"树状数组": {
+		"scope": "cpp",
+		"prefix": "add_BIT",
+		"body": [
+			"struct BIT{",
+			"\tint data[1000007];",
+			"\tvoid add(int x,int k=1){for(;x<=1000000;x+=x&-x)data[x]+=k;}",
+			"\tint sum(int x,int k=0){for(;x;x-=x&-x)k+=data[x];return k;}",
+			"\tint query(int l,int r){return sum(r)-sum(l-1);}",
+			"};"
+		]
+	},
+	"矩阵": {
+		"scope": "cpp",
+		"prefix": "add_matrix",
+		"body": [
+			"struct matrix{",
+			"\tint data[107][107],size;",
+			"\tmatrix(){}",
+			"\tmatrix(const int &x):size(x){for(int i=0;i<=size;i++)std::fill_n(data[i],size+1,0);}",
+			"\tvoid build(){for(int i=1;i<=size;i++)data[i][i]=1;}",
+			"\tint *operator[](const int &t){return data[t];}",
+			"\tconst int *operator[](const int &t)const{return data[t];}",
+			"\tmatrix operator*(const matrix &t){",
+			"\t\tmatrix res(size);",
+			"\t\tfor(int k=1;k<=size;k++)for(int i=1;i<=size;i++)for(int j=1;j<=size;j++)",
+			"\t\t\tres[i][j]=(res[i][j]+data[i][k]*t[k][j])%MOD;",
+			"\t\treturn res;",
+			"\t}",
+			"\tmatrix &operator^=(int t){",
+			"\t\tmatrix res(size);res.build();",
+			"\t\tfor(;t;t>>=1,*this=*this**this)if(t&1)res=res**this;",
+			"\t\treturn *this=res;",
+			"\t}",
+			"};"
+		]
+	}
+}
