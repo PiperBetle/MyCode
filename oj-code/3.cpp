@@ -1,62 +1,78 @@
-#pragma GCC option(2)
-#pragma GCC option(3)
-#pragma GCC option("Ofast")
-#pragma GCC option("inline")
-#pragma GCC option("-fgcse")
-#pragma GCC option("-fgcse-lm")
-#pragma GCC option("-fipa-sra")
-#pragma GCC option("-ftree-pre")
-#pragma GCC option("-ftree-vrp")
-#pragma GCC option("-fpeephole2")
-#pragma GCC option("-ffast-math")
-#pragma GCC option("-fsched-spec")
-#pragma GCC option("unroll-loops")
-#pragma GCC option("-falign-jumps")
-#pragma GCC option("-falign-loops")
-#pragma GCC option("-falign-labels")
-#pragma GCC option("-fdevirtualize")
-#pragma GCC option("-fcaller-saves")
-#pragma GCC option("-fcrossjumping")
-#pragma GCC option("-fthread-jumps")
-#pragma GCC option("-funroll-loops")
-#pragma GCC option("-fwhole-program")
-#pragma GCC option("-freorder-blocks")
-#pragma GCC option("-fschedule-insns")
-#pragma GCC option("inline-functions")
-#pragma GCC option("-ftree-tail-merge")
-#pragma GCC option("-fschedule-insns2")
-#pragma GCC option("-fstrict-aliasing")
-#pragma GCC option("-fstrict-overflow")
-#pragma GCC option("-falign-functions")
-#pragma GCC option("-fcse-skip-blocks")
-#pragma GCC option("-fcse-follow-jumps")
-#pragma GCC option("-fsched-interblock")
-#pragma GCC option("-fpartial-inlining")
-#pragma GCC option("no-stack-protector")
-#pragma GCC option("-freorder-functions")
-#pragma GCC option("-findirect-inlining")
-#pragma GCC option("-fhoist-adjacent-loads")
-#pragma GCC option("-frerun-cse-after-loop")
-#pragma GCC option("inline-small-functions")
-#pragma GCC option("-finline-small-functions")
-#pragma GCC option("-ftree-switch-conversion")
-#pragma GCC option("-foption-sibling-calls")
-#pragma GCC option("-fexpensive-optimizations")
-#pragma GCC option("-funsafe-loop-optimizations")
-#pragma GCC option("inline-functions-called-once")
-#pragma GCC option("-fdelete-null-pointer-checks")
-#include<iostream>
-#include<cstring>
-#include<cstdio>
-#include<algorithm>
-using std::cin;using std::cout;
-signed main(){
-//	freopen(".in","r",stdin);
-//	freopen(".out","w",stdout);
-	std::ios::sync_with_stdio(false);
-	cin.tie(nullptr);cout.tie(nullptr);
-	int n,m;
-	cin>>n>>m;
-	cout<<n+m;
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long LL;
+const int INF = 0x3f3f3f3f;
+const LL mod = 1e9 + 7;
+const int N = 100005;
+
+vector<pair<int, int>> a;
+int f[1 << 8], vis[8];
+int main()
+{
+	int n;
+	scanf("%d%*d%*d", &n);
+	for (int i = 1; i <= n; i++)
+	{
+		int l, r;
+		scanf("%d%d", &l, &r);
+		a.push_back({l, i});
+		a.push_back({r + 1, -i});
+	}
+	sort(a.begin(), a.end());
+	for (int i = 1; i < 256; i++)
+		f[i] = -INF;
+	for (int u = 0; u < a.size(); u++)
+	{
+		int id = a[u].second, k;
+		int len = u == a.size() - 1 ? 0 : a[u + 1].first - a[u].first;
+		if (id > 0)
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				if (vis[i] == 0)
+				{
+					vis[k = i] = id;
+					break;
+				}
+			}
+			for (int i = 255; i >= 0; i--)
+			{
+				if (i >> k & 1)
+				{
+					f[i] = f[i ^ 1 << k] + len * __builtin_parity(i);
+				}
+				else
+				{
+					f[i] = f[i] + len * __builtin_parity(i);
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				if (vis[i] == -id)
+				{
+					vis[k = i] = 0;
+					break;
+				}
+			}
+			for (int i = 0; i < 256; i++)
+			{
+				if (i >> k & 1)
+				{
+					f[i] = -INF;
+				}
+				else
+				{
+					f[i] = max(f[i], f[i ^ 1 << k]) + len * __builtin_parity(i);
+				}
+			}
+		}
+		for (int i = 0; i < 10; ++i)
+			printf("%d ", f[i]);
+		printf("\n");
+	}
+	printf("%d\n", f[0]);
 	return 0;
 }

@@ -200,12 +200,17 @@
 		"valarray": "cpp",
 		"variant": "cpp",
 		"slist": "cpp",
-		"queue": "cpp"
+		"queue": "cpp",
+		"hash_map": "cpp",
+		"cassert": "cpp",
+		"expected": "cpp",
+		"stacktrace": "cpp"
 	},
 	"editor.fontFamily": "Fira Code",
+	// "editor.fontFamily": "JetBrains Mono",
+	// "editor.fontFamily": "Ubuntu Mono",
 	"editor.insertSpaces": false,
 	"editor.fontLigatures": true,
-	"editor.tabSize": 4,
 	"editor.detectIndentation": false,
 	"debug.onTaskErrors": "showErrors",
 	"code-runner.clearPreviousOutput": true,
@@ -217,21 +222,17 @@
 	"terminal.integrated.fontSize": 15,
 	"debug.console.fontSize": 15,
 	"workbench.iconTheme": "vscode-icons",
-	"[cpp]": {
-		"editor.quickSuggestions": true
-	},
-	"editor.fontWeight": "410",
 	"code-runner.saveFileBeforeRun": true,
-	"workbench.colorTheme": "Horizon",
-	"code-runner.executorMap": {
-		// "cpp": "cls && cd $dir && g++ \"$fileName\" -o VScodeRunner -Wl,--stack=2147483647 -O2 -Wall -Wextra -std=c++20 && VScodeRunner",
-		"cpp":"cls && g++ $fullFileName -o VScodeRunner -Wl,--stack=21474783647 -O2 -Wall -Wextra -pedantic -std=c++20 && IcePrint \"compile okey, my master ~\" && VScodeRunner.exe"
+	"workbench.colorTheme": "Red",
+	"workbench.colorCustomizations": {
+		"editorCursor.foreground": "#88E7E7"
 	},
-	"C_Cpp.default.cppStandard": "c++20",
-	"C_Cpp.loggingLevel": "Debug",
-	"C_Cpp.errorSquiggles": "Enabled",
-	"backgroundCover.imagePath": "f:\\soft\\.vscode\\photo\\93928992_p0_master1200.jpg",
-	"backgroundCover.opacity": 0.15,
+	"code-runner.executorMap": {
+		// "cpp": "cls && cd $dir && g++ \"$fileName\" -o VScodeRunner -std=c++23 -Wl,--stack=1048576 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wconversion && $workspaceRoot\\IcePrint \"compile okey, my master ~\" && VScodeRunner",
+		"cpp": "cls && cd $dir && g++ \"$fileName\" -o VScodeRunner -std=c++20 -Wl,--stack=1048576 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wconversion && $workspaceRoot\\IcePrint \"compile okey, my master ~\" && VScodeRunner",
+		// "cpp": "cls && cd $dir && g++ \"$fileName\" -o VScodeRunner -std=c++14 -Wl,--stack=1048576 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wconversion && $workspaceRoot\\IcePrint \"compile okey, my master ~\" && VScodeRunner",
+		// "cpp": "cls && cd $dir && g++ \"$fileName\" -o VScodeRunner -std=c++17 -Wl,--stack=1048576 -O2 -Wall -Wextra -Wpedantic -Wshadow -Wconversion && $workspaceRoot\\IcePrint \"compile okey, my master ~\" && VScodeRunner",
+	},
 	"terminal.integrated.enableMultiLinePasteWarning": false,
 	"workbench.sideBar.location": "right",
 	"window.zoomLevel": -2,
@@ -240,10 +241,13 @@
 	"files.autoGuessEncoding": true,
 	"editor.minimap.maxColumn": 100,
 	"files.defaultLanguage": "cpp",
-	"editor.bracketPairColorization.enabled": true,
-	"editor.guides.bracketPairs": "active",
 	"explorer.copyRelativePathSeparator": "\\",
 	"editor.hover.delay": 200,
 	"extensions.ignoreRecommendations": true,
-	"workbench.activityBar.visible": false
+	"workbench.activityBar.visible": false,
+	"files.autoSave": "afterDelay",
+	"editor.fastScrollSensitivity": 12,
+	"workbench.list.fastScrollSensitivity": 12,
+	"terminal.integrated.fastScrollSensitivity": 12,
+	"files.eol": "\n"
 }

@@ -6,72 +6,66 @@
 #define int long long
 using std::cin;using std::cout;
 constexpr int MOD=1e9+7;
-template<typename any>struct odt{
-	struct odt_node{
-		int l,r;mutable any data;
-		odt_node(int _l,int _r=-1,any _data=0):l(_l),r(_r),data(_data){}
-		bool operator<(const odt_node &t)const{return l<t.l;}
-	};
-	std::set<odt_node>s;
-	auto begin(){return s.begin();}
-	auto end(){return s.end();}
-	auto split(int pos){
-		auto it=s.lower_bound(pos);
-		if(it!=s.end()&&it->l==pos)return it;
-		it--;int l=it->l,r=it->r;any k=it->data;
-		s.erase(it);s.emplace(l,pos-1,k);
-		return s.emplace(pos,r,k).first;
+struct odt_node{
+	int l,r;mutable int val;
+	odt_node(int a=0,int b=0,int c=0):l(a),r(b),val(c){}
+	bool operator<(const odt_node &t)const{return l<t.l;}
+};
+struct odt_tree:std::set<odt_node>{
+	auto split(int p){
+		auto it=lower_bound(p);
+		if(it!=end()&&it->l==p)return it;
+		auto t=*--it;erase(it);emplace(t.l,p-1,t.val);
+		return emplace(p,t.r,t.val).first; 
 	}
-	auto assign(int l,int r,any k){
-		auto it_r=split(r+1),it_l=split(l);
-		s.erase(it_l,it_r);
-		return s.emplace(l,r,k).first;
+	auto assign(int l,int r,int k){
+		erase(split(l),split(r+1));
+		return emplace(l,r,k).first;
 	}
-	any query(int l,int r,any sum=0){
-		auto it_r=split(r+1),it_l=split(l);
-		for(auto it=it_l;it!=it_r;it++)sum+=(it->r-it->l+1)*it->data;
+	int query(int l,int r,int sum=0){
+		auto ir=split(r+1),il=split(l);
+		for(auto it=il;it!=ir;it++)sum+=(it->r-it->l+1)*it->val;
 		return sum%MOD;
 	}
-	void add(int l,int r,any k){
-		auto it_r=split(r+1),it_l=split(l);
-		for(auto it=it_l;it!=it_r;it++){
-			it->data+=k;
-			if(it->data>=MOD)it->data-=MOD;
+	void add(int l,int r,int k){
+		auto ir=split(r+1),il=split(l);
+		for(auto it=il;it!=ir;it++){
+			it->val+=k;
+			if(it->val>=MOD)it->val-=MOD;
 		}
 	}
 	void copy(int l1,int r1,int l2,int r2){
 		int p=l2-l1;
 		split(r2+1),split(l2);split(r1+1),split(l1);
-		s.erase(s.lower_bound(l2),s.lower_bound(r2+1));
-		for(auto it=s.lower_bound(l1);it->r<=r1;it++)s.emplace(it->l+p,it->r+p,it->data);
+		erase(lower_bound(l2),lower_bound(r2+1));
+		for(auto it=lower_bound(l1);it->r<=r1;it++)emplace(it->l+p,it->r+p,it->val);
 	}
 	void swap(int l1,int r1,int l2,int r2){
 		int p=l2-l1;
 		std::vector<odt_node>t1,t2;
-		auto it_r=split(r2+1),it_l=split(l2);
-		for(auto it=it_l;it!=it_r;it++)t2.emplace_back(it->l,it->r,it->data);
-		it_r=split(r1+1),it_l=split(l1);
-		for(auto it=it_l;it!=it_r;it++)t1.emplace_back(it->l,it->r,it->data);
-		s.erase(it_l,it_r);
-		for(auto it:t2)s.emplace(it.l-p,it.r-p,it.data);
-		it_r=split(r2+1),it_l=split(l2);
-		s.erase(it_l,it_r);
-		for(auto it:t1)s.emplace(it.l+p,it.r+p,it.data);
+		auto ir=split(r2+1),il=split(l2);
+		for(auto it=il;it!=ir;it++)t2.emplace_back(it->l,it->r,it->val);
+		ir=split(r1+1),il=split(l1);
+		for(auto it=il;it!=ir;it++)t1.emplace_back(it->l,it->r,it->val);
+		erase(il,ir);
+		for(auto it:t2)emplace(it.l-p,it.r-p,it.val);
+		ir=split(r2+1),il=split(l2);
+		erase(il,ir);
+		for(auto it:t1)emplace(it.l+p,it.r+p,it.val);
 	}
 	void reverse(int l,int r){
-		auto it_r=split(r+1),it_l=split(l);
+		auto ir=split(r+1),il=split(l);
 		std::vector<odt_node>t;
-		for(auto it=it_l;it!=it_r;it++)t.emplace_back(it->l-l,it->r-l,it->data);
-		s.erase(it_l,it_r);
-		for(auto it:t)s.emplace(r-it.r,r-it.l,it.data);
+		for(auto it=il;it!=ir;it++)t.emplace_back(it->l-l,it->r-l,it->val);
+		erase(il,ir);
+		for(auto it:t)emplace(r-it.r,r-it.l,it.val);
 	}
-};
-odt<int>s;
+}s;
 signed main(){
 //	freopen(".in","r",stdin);freopen(".out","w",stdout);
 	std::ios::sync_with_stdio(false);cin.tie(nullptr);
-	int n,m;cin>>n>>m;s.s.emplace(n+1,n+1,0);
-	for(int i=1,t;i<=n;i++)cin>>t,s.s.emplace(i,i,t);
+	int n,m;cin>>n>>m;s.emplace(n+1,n+1,0);
+	for(int i=1,t;i<=n;i++)cin>>t,s.emplace(i,i,t);
 	while(m--){
 		int t,l,r,x,y,k;cin>>t;switch(t){
 		case 1:cin>>l>>r;cout<<s.query(l,r)<<'\n';break;
@@ -82,6 +76,6 @@ signed main(){
 		case 6:cin>>l>>r;s.reverse(l,r);break;
 		}
 	}
-	for(auto it:s)for(;it.l<=it.r&&it.r<=n;it.l++)cout<<it.data<<' ';
+	for(auto it:s)for(;it.l<=it.r&&it.r<=n;it.l++)cout<<it.val<<' ';
 	return 0;
 }

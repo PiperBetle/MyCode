@@ -10,7 +10,7 @@
 #include<map>
 #include<list>
 using namespace std;
-int w[1001],f[1001];
+int w[20001],f[20001];
 int main()
 {
 //	freopen(".in","r",stdin);
