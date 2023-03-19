@@ -1,0 +1,29 @@
+{
+	"configurations": [
+		{
+			"name": "Linux",
+			"includePath": [
+				"${workspaceFolder}/**"
+			],
+			"defines": [],
+			"compilerPath": "/usr/bin/gcc",
+			"cppStandard": "gnu++20",
+			"intelliSenseMode": "linux-gcc-x64"
+		},
+		{
+			"name": "Win32",
+			"includePath": [
+				"${workspaceFolder}/**"
+			],
+			"defines": [
+				"_DEBUG",
+				"UNICODE",
+				"_UNICODE"
+			],
+			"compilerPath": "C:\\Program Files (x86)\\Dev-Cpp\\MinGW64\\bin\\gcc.exe",
+			"cppStandard": "gnu++20",
+			"intelliSenseMode": "windows-gcc-x64"
+		}
+	],
+	"version": 4
+}

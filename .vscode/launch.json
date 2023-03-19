@@ -1,0 +1,43 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "编译并调试(VScode)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${fileDirname}\\VScodeRunner.exe",
+			"cwd": "${fileDirname}",
+			"preLaunchTask": "g++ compile"
+		},
+		{
+			"name": "编译并运行(ConsolePauser)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}\\ConsolePauser.exe",
+			"args": ["VScodeRunner.exe"],
+			"cwd": "${fileDirname}",
+			"console": "newExternalWindow",
+			"preLaunchTask": "g++ compile (no debug)"
+		},
+		{
+			"name": "编译并运行(pause)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "VScodeRunner.exe",
+			"cwd": "${fileDirname}",
+			"console": "externalTerminal",
+			"preLaunchTask": "g++ compile (no debug)"
+		},
+		{
+			"name": "(Windows) 快速启动",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "C:\\Windows\\System32\\cmd.exe",
+			"args": [
+				"/c g++ ${file} -o ${fileBasenameNoExtension} -Wl,--stack=1048576 -O2 -Wall -Wextra -Wshadow -std=c++20 && ${fileBasenameNoExtension}.exe"
+			],
+			"cwd": "${fileDirname}",
+			"console": "externalTerminal"
+		}
+	]
+}
