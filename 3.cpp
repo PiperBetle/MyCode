@@ -24,10 +24,10 @@ struct _time{~_time(){std::cerr<<"\n\033[33;40m"<<1.*clock()/CLOCKS_PER_SEC<<"s\
 using std::cin;using std::cout;
 using std::max;using std::min;
 using std::tie;using std::ignore;
-template<typename any>inline void cmin(any&x,const any&y){if(y<x)x=y;}
-template<typename any>inline void cmax(any&x,const any&y){if(x<y)x=y;}
-template<typename any,typename...args>inline void cmin(any&x,const any&y,const args&...z){cmin(x,y);cmin(x,z...);}
-template<typename any,typename...args>inline void cmax(any&x,const any&y,const args&...z){cmax(x,y);cmax(x,z...);}
+template<typename any>constexpr any&cmin(any&x,any&&y){if(y<x)x=y;return x;}
+template<typename any>constexpr any&cmax(any&x,any&&y){if(x<y)x=y;return x;}
+template<typename any,typename...args>constexpr any&cmin(any&x,any&&y,args&&...z){if(y<x)x=y;return cmin(x,std::forward<any>(z)...);}
+template<typename any,typename...args>constexpr any&cmax(any&x,any&&y,args&&...z){if(x<y)x=y;return cmax(x,std::forward<any>(z)...);}
 using loli=long long;
 using unt=unsigned;
 using lolu=unsigned long long;
